@@ -7,8 +7,8 @@ def get_grayscale(image):
 
 # noise removal
 def remove_noise(image):
-    return cv2.medianBlur(image, 5)
-
+    #return cv2.medianBlur(image, 5)
+    return cv2.fastNlMeansDenoising(image, h=10, searchWindowSize=21, templateWindowSize=7)
 
 # thresholding
 def thresholding(image):

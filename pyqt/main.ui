@@ -20,21 +20,28 @@
       <item>
        <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>CLEAR</string>
+         <string>초기화</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_13">
         <property name="text">
-         <string>ENTER</string>
+         <string>입력</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_db">
+        <property name="text">
+         <string>DBTEST</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
-         <string>SAVE</string>
+         <string>저장</string>
         </property>
        </widget>
       </item>

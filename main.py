@@ -1,15 +1,9 @@
 import sys
-import pytesseract
-import re
-import cv2
 import os
-import preprocessor as pp
-import buttonclick as bk
 import menuclick as mk
-from pytesseract import Output
+import dbManual as dm
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-from PIL import Image
 
 form_class = uic.loadUiType("pyqt/main.ui")[0]
 
@@ -29,10 +23,13 @@ class Main(QMainWindow, form_class):
         self.action_capture.triggered.connect(lambda: self.menuClick("capture"))
 
         # 버튼 클릭
-        #self.<버튼명>.clicked.connect(lambda: self.buttonClick(<이름>))
+        # self.btn.clicked.connect(lambda: self.(""))  # db조작
+
+        # 데이터베이스 조작
+        self.btn_db.clicked.connect(lambda: self.databaseOper("db")) # db조작
 
     def buttonClick(self, name):
-        if name == "1":
+        if name == "non":
             pass
 
     def menuClick(self, what):
@@ -45,6 +42,10 @@ class Main(QMainWindow, form_class):
             resultText = "-------------------------------"
             resultText += mk.captureMenuClick()
             self.plainTextEdit.appendPlainText(resultText)
+
+    def databaseOper(self, how):
+        if how == "db":
+            dm.dbTest()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -1,12 +1,9 @@
 from PyQt5.QtWidgets import *
-from PyQt5 import uic
 from PIL import ImageGrab
 from functools import partial
 import cv2
 import pytesseract
 import preprocessor as pp
-import pyautogui # mouse, keyboard 관련 도구함 끌어오기
-import pyperclip # 클립보드에 저장 또는 불러오기 위함
 
 def mouse_event(action, x, y, flags, *userdata):
     global lfx, lfy, rfx, rfy

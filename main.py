@@ -17,11 +17,11 @@ class Main(QMainWindow, form_class):
         self.setupUi(self)
 
         # 버튼 클릭
-        self.image_add_btn.clicked.connect(self.buttonclick("image_add_btn"))
+        self.image_add_btn.clicked.connect(lambda: self.buttonclick("image_add_btn"))
 
     def buttonclick(self, name):
-        if name == "image_add_btn" :
-            bk.image_add_btn()
+        if name == "image_add_btn":
+            bk.image_add_btn(self)
 
 
     def method1(self):

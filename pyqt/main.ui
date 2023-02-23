@@ -255,7 +255,7 @@
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_20">
                  <item>
-                  <widget class="QPushButton" name="mechanism_storage_add">
+                  <widget class="QPushButton" name="image_add_btn">
                    <property name="statusTip">
                     <string>Capture the current expression then save to the list.</string>
                    </property>
@@ -841,7 +841,7 @@
      <x>0</x>
      <y>0</y>
      <width>928</width>
-     <height>34</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -1332,6 +1332,7 @@
    </property>
   </action>
  </widget>
+ <resources/>
  <connections>
   <connection>
    <sender>action_exit</sender>

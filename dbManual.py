@@ -1,26 +1,44 @@
 import sqlite3
+import traceback
 
-def dbTest():
-    print("db")
+def dbInsert(ques, school, grade, unit, answer, diff, exam1, exam2, exam3, exam4, exam5):
+    try:
+        # db connect
+        conn = sqlite3.connect("test.db", isolation_level=None)
+        cs = conn.cursor()
 
-    ## --DATABASE--
-    # https://hleecaster.com/python-sqlite3/ 참고
-    # DB 생성
-    conn = sqlite3.connect("test.db", isolation_level=None)  # isolation_level=None : 자동커밋
+        # primary key(id) 찾기
+        cs.execute("SELECT max(id) FROM table2")
+        mId = cs.fetchall()
+        mathId = int(mId[0][0])
+        if mId[0][0] != None :
+            mathId += 1
+        else :
+            mathId = 1000000
+        print(mathId)
 
-    # 커서 획득
+        # 데이터 넣기
+        insert_list = (
+            (mathId, ques, school, grade, unit, answer, diff, exam1, exam2, exam3, exam4, exam5)
+        )
+        cs.execute("INSERT INTO table2(id, ques, school, grade, unit, answer, diff, exam1, exam2, exam3, exam4, exam5) \
+                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?)", insert_list)
+
+        # db close
+        conn.close()
+
+        return 1
+    except:
+        err_msg = traceback.print_exc()
+        return err_msg
+
+def dbSelect():
+    conn = sqlite3.connect("test.db", isolation_level=None)
     cs = conn.cursor()
+    cs.execute("SELECT * FROM table2")
+    returnList = cs.fetchall()
 
-    # 테이블 생성
-    cs.execute("CREATE TABLE IF NOT EXISTS table1 \
-                   (id integer PRIMARY KEY, name text)")
-    # 데이터 삽입
-    cs.execute("INSERT INTO table1 \
-                   VALUES(1, 'LEE')")
-    # 데이터 조회
-    cs.execute("SELECT * FROM table1")
-    print(cs.fetchall())
+    # db close
+    conn.close()
 
-    cs.execute("SELECT * FROM table1")
-    for row in cs.fetchall():
-        print(row)
+    return returnList

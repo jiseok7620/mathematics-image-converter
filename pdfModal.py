@@ -1,10 +1,8 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-from PyQt5.QtGui import QPdfWriter, QPagedPaintDevice, QPainter
-from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 import traceback
 import printform
-
+import sqlite3
 
 class MyModal(QDialog):
     def __init__(self, parent):
@@ -16,30 +14,87 @@ class MyModal(QDialog):
         # 버튼 클릭
         self.pushButton.clicked.connect(lambda: self.makeForm()) # 출력 형식 만들기
 
+        # 콤보박스 변경 시
+        self.comboBox.currentTextChanged.connect(lambda: self.comboBoxEvent())  # 초,중,고 선택
+
+        # 체크박스 체크 변경시
+        self.checkBox.stateChanged.connect(lambda : self.checkboxChange())
+
     def makeForm(self):
-        pf = printform.PrintForm(self)
+        # db connect
+        conn = sqlite3.connect("test.db", isolation_level=None)
+        cs = conn.cursor()
 
-        '''
-        # pdf 생성
-        pdf = QPdfWriter('test.pdf')
-        pdf.setPageSize(QPagedPaintDevice.A4)
+        # 데이터 가져오기
+        school = self.comboBox.currentText()
+        select_list = (
+            (school,)
+        )
+        cs.execute("SELECT * FROM table2 WHERE school =?", select_list)
+        returnList = cs.fetchall()
 
-        # 화면 캡쳐
-        screen = QApplication.primaryScreen()
-        img = screen.grabWindow(self.winId(), 0, 0, self.rect().width(), self.rect().height())
+        # 프린트 창 열기
+        pf = printform.PrintForm(self, returnList)
 
-        # 3항 연산자 (a if test else b, 만약 test가 참이면 a, 아니면 b)
-        # 이미지 크기는 큰 값 기준, PDF 크기는 작은값 기준(화면 초과 방지)
-        #img_size = img.width() if img.width() - img.height() > 0 else img.height()
-        #pdf_size = pdf.width() if pdf.width() - pdf.height() < 0 else pdf.height()
+    def checkboxChange(self):
+        if self.checkBox.isChecked():
+            self.label_5.setEnabled(True)
+            self.label_6.setEnabled(True)
+            self.label_7.setEnabled(True)
+            self.lineEdit_2.setEnabled(True)
+            self.lineEdit_3.setEnabled(True)
+            self.lineEdit_4.setEnabled(True)
+            self.checkBox_2.setEnabled(True)
+            self.checkBox_3.setEnabled(True)
+            self.checkBox_4.setEnabled(True)
+        else :
+            self.label_5.setEnabled(False)
+            self.label_6.setEnabled(False)
+            self.label_7.setEnabled(False)
+            self.lineEdit_2.setEnabled(False)
+            self.lineEdit_3.setEnabled(False)
+            self.lineEdit_4.setEnabled(False)
+            self.checkBox_2.setEnabled(False)
+            self.checkBox_3.setEnabled(False)
+            self.checkBox_4.setEnabled(False)
+    
+    def comboBoxEvent(self):
+        what = self.comboBox.currentText()
+        if what == "초등학교":
+            self.comboBox1.clear()
+            self.comboBox2.clear()
+            # 학년 콤보박스
+            self.comboBox1.addItem("1")
+            self.comboBox1.addItem("2")
+            self.comboBox1.addItem("3")
+            self.comboBox1.addItem("4")
+            self.comboBox1.addItem("5")
+            self.comboBox1.addItem("6")
+            # 단원 콤보박스
+            self.comboBox2.addItem("초등단원1")
+            self.comboBox2.addItem("초등단원2")
+            self.comboBox2.addItem("초등단원3")
 
-        # 최적 비율 얻기
-        #ratio = pdf_size / img_size
+        elif what == "중학교":
+            self.comboBox1.clear()
+            self.comboBox2.clear()
+            # 학년 콤보박스
+            self.comboBox1.addItem("1")
+            self.comboBox1.addItem("2")
+            self.comboBox1.addItem("3")
+            # 단원 콤보박스
+            self.comboBox2.addItem("중등단원1")
+            self.comboBox2.addItem("중등단원2")
+            self.comboBox2.addItem("중등단원3")
 
-        # pdf에 쓰기
-        qp = QPainter()
-        qp.begin(pdf)
-        #qp.drawPixmap(0, 0, img.width() * ratio, img.height() * ratio, img)
-        qp.drawPixmap(0, 0, img)
-        qp.end()
-        '''
+        elif what == "고등학교":
+            self.comboBox1.clear()
+            self.comboBox2.clear()
+            # 학년 콤보박스
+            self.comboBox1.addItem("1")
+            self.comboBox1.addItem("2")
+            self.comboBox1.addItem("3")
+            # 단원 콤보박스
+            self.comboBox2.addItem("고등단원1")
+            self.comboBox2.addItem("고등단원2")
+            self.comboBox2.addItem("고등단원3")

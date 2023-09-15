@@ -98,3 +98,7 @@ class MyModal(QDialog):
             self.comboBox2.addItem("고등단원1")
             self.comboBox2.addItem("고등단원2")
             self.comboBox2.addItem("고등단원3")
+
+        # 만든 데이터를 printform에 넘겨주기
+        pf = printform.PrintForm(self)
+
